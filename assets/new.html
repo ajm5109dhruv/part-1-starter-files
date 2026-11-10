@@ -16,72 +16,6 @@
     .d-logo { width: 790px; height: auto; pointer-events: none; }
     @media (max-width: 920px) { .d-logo { width: 350px; } }
   </style>
-
-  <!-- ===== ABOUT ME POPUP CSS (added) ===== -->
-  <style>
-    #aboutOverlay {
-      --bg: #111; --card: #1a1d24; --text: #fff;
-      --muted: #aab3c5; --line: #2b3140; --accent: #38bdf8;
-      position: fixed; inset: 0; z-index: 9999; overflow-y: auto;
-      background: var(--bg); color: var(--text);
-      font-family: system-ui, "Segoe UI", Arial, sans-serif; line-height: 1.7;
-      display: none;
-    }
-    #aboutOverlay.open { display: block; }
-    #aboutOverlay *, #aboutOverlay *::before, #aboutOverlay *::after { box-sizing: border-box; margin: 0; }
-    #aboutOverlay h1, #aboutOverlay h2 { font-family: 'spartan', system-ui, sans-serif; line-height: 1.1; }
-
-    #aboutOverlay .about { max-width: 1040px; margin: 0 auto; padding: 56px 24px 96px; }
-    #aboutOverlay .about-close {
-      position: fixed; top: 20px; right: 24px; width: 46px; height: 46px;
-      border-radius: 50%; border: 0; cursor: pointer;
-      background: var(--card); color: var(--text); font-size: 20px;
-    }
-    #aboutOverlay .about-close:hover { background: var(--accent); color: #111; }
-    #aboutOverlay .about-close:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
-
-    #aboutOverlay .hero-a { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; margin-top: 24px; }
-    #aboutOverlay .hero-a h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 700; letter-spacing: -.02em; }
-    #aboutOverlay .role { margin-top: 14px; color: var(--accent); font-size: 1.25rem; font-style: italic; font-family: 'Merriweather', Georgia, serif; }
-    #aboutOverlay .bio { margin-top: 24px; max-width: 52ch; color: var(--muted); font-size: 1.1rem; }
-    #aboutOverlay .bio + .bio { margin-top: 14px; }
-
-    #aboutOverlay .photo { position: relative; justify-self: center; width: min(100%, 380px); }
-    #aboutOverlay .photo::before {
-      content: ""; position: absolute; inset: 18px -18px -18px 18px;
-      border-radius: 28px; background: linear-gradient(to left, #1595b6, #1f2667); 
-    }
-    #aboutOverlay .photo img {
-      position: relative; display: block; width: 100%; aspect-ratio: 4 / 5;
-      object-fit: cover; object-position: 38% center; border-radius: 28px;
-    }
-
-    #aboutOverlay section { margin-top: 80px; }
-    #aboutOverlay h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 28px; }
-    #aboutOverlay .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-    #aboutOverlay .skill {
-      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-      padding: 20px 22px; font-weight: 600; font-size: 1.1rem;
-    }
-    #aboutOverlay .skill small { display: block; font-weight: 400; font-size: .9rem; color: var(--muted); }
-    #aboutOverlay .skill.learning { border-style: dashed; }
-
-    #aboutOverlay .edu { display: grid; gap: 14px; }
-    #aboutOverlay .edu-item {
-      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
-      padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px;
-    }
-    #aboutOverlay .edu-item strong { display: block; font-size: 1.1rem; }
-    #aboutOverlay .edu-item span { color: var(--muted); font-size: .95rem; }
-    #aboutOverlay .edu-item em { font: 700 1.9rem 'spartan', system-ui, sans-serif; color: var(--accent); }
-
-    @media (max-width: 780px) {
-      #aboutOverlay .hero-a { grid-template-columns: 1fr; gap: 48px; margin-top: 56px; }
-      #aboutOverlay .photo { order: -1; width: min(78%, 300px); margin-right: 18px; }
-      #aboutOverlay .skills { grid-template-columns: 1fr 1fr; }
-      #aboutOverlay section { margin-top: 64px; }
-    }
-  </style>
 </head>
 <body class="bg-[#111] text-white flex flex-col">
   <section class="hero flex flex-col justify-between h-screen">
@@ -130,9 +64,8 @@
         </svg>
 
         <h1 class="text-[64px] font-['spartan'] relative pointer-events-none">Dhruv Ajmera</h1>
-        <p class="text-[24px] font-['Merriweather'] italic relative pointer-events-none">Aspiring SoftWare Developer</p>
-        <!-- CHANGED: added id + data-open-about so this button opens the About Me popup -->
-        <button id="aboutBtn" data-open-about class="bg-[#4595eb] py-2 px-5 rounded mt-7 text-[16px] font-extrabold bg-gradient-to-l from-[#1595b6] to-[#1f2667e6] relative hover:scale-110 transition-transform duration-300 ease-in-out">About Me</button>
+        <p class="text-[24px] font-['Merriweather'] italic relative pointer-events-none">Aspiring Full Stack Developer</p>
+        <button class="bg-[#4595eb] py-2 px-5 rounded mt-7 text-[16px] font-extrabold bg-gradient-to-l from-[#1595b6] to-[#1f2667e6] relative hover:scale-110 transition-transform duration-300 ease-in-out">About Me</button>
       </div>
 
       <ul class="text-[#4ecaf7ce] ml-auto space-y-6 absolute right-8 text-[28px]">
@@ -155,71 +88,11 @@
     </h1>
     <div class="absolute top-20 bottom-0 left-1/2 w-[3px] bg-sky-300 -translate-x-1/2 mt-6"></div>
   </section>
-
-  <!-- ===== ABOUT ME POPUP HTML (added) ===== -->
-  <div id="aboutOverlay" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
-    <button class="about-close" id="aboutClose" aria-label="Close About Me">&#10005;</button>
-    <main class="about">
-      <header class="hero-a">
-        <div>
-          <h1 id="aboutTitle">Dhruv Ajmera</h1>
-          <p class="role">Aspiring SoftWare Developer</p>
-          <p class="bio">
-            I’m a student at GLA University, Mathura, working towards a career in
-            software engineering. I enjoy turning ideas into clean, responsive web
-            pages, and I care about getting the small details right.
-          </p>
-          <p class="bio">
-            Right now I’m strengthening my front-end skills while learning JavaScript,
-            Java and Python, so I can build complete applications, not just pages.
-          </p>
-        </div>
-        <div class="photo"><img src="/assets/profile.jpg" alt="Portrait of Dhruv Ajmera"></div>
-      </header>
-
-      <section aria-labelledby="skills-h">
-        <h2 id="skills-h">Skills</h2>
-        <div class="skills">
-          <div class="skill">HTML</div>
-          <div class="skill">CSS</div>
-          <div class="skill">Tailwind CSS</div>
-          <div class="skill learning">JavaScript<small>Learning</small></div>
-          <div class="skill learning">Java<small>Learning</small></div>
-          <div class="skill learning">Python<small>Learning</small></div>
-        </div>
-      </section>
-
-      <section aria-labelledby="edu-h">
-        <h2 id="edu-h">Education</h2>
-        <div class="edu">
-          <div class="edu-item"><div><strong>GLA University, Mathura</strong><span>Currently studying</span></div></div>
-          <div class="edu-item"><div><strong>Class 12</strong><span>Senior Secondary</span></div><em>89.2%</em></div>
-          <div class="edu-item"><div><strong>Class 10</strong><span>Secondary</span></div><em>97.2%</em></div>
-        </div>
-      </section>
-    </main>
-  </div>
   
   <!-- Order matters: libraries first, then your matter.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/matter-wrap@0.2.0/build/matter-wrap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/matter-attractors@0.1.6/build/matter-attractors.min.js"></script>
   <script src="./matter.js"></script>
-
-  <!-- ===== ABOUT ME POPUP JS (added) ===== -->
-  <script>
-    (function () {
-      var overlay = document.getElementById('aboutOverlay');
-      var closeBtn = document.getElementById('aboutClose');
-      function openAbout()  { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; overlay.scrollTop = 0; closeBtn.focus(); }
-      function closeAbout() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
-
-      document.querySelectorAll('[data-open-about]').forEach(function (el) {
-        el.addEventListener('click', function (e) { e.preventDefault(); openAbout(); });
-      });
-      closeBtn.addEventListener('click', closeAbout);
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAbout(); });
-    })();
-  </script>
 </body>
 </html>
