@@ -1,0 +1,32 @@
+<svg width="120" height="120" viewBox="0 0 120 120"
+     xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="50%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Stylish D -->
+  <path
+    d="M25 15H58
+       C83 15 100 33 100 60
+       C100 87 83 105 58 105
+       H25V15ZM43 31V89H57
+       C72 89 82 78 82 60
+       C82 42 72 31 57 31H43Z"
+    fill="#F5F5F5"/>
+
+  <!-- Blue stylish curve -->
+  <path
+    d="M18 84
+       C35 67 52 60 76 53
+       C84 51 91 47 97 42
+       C94 54 87 62 77 67
+       C55 77 40 82 22 98
+       Z"
+    fill="url(#blue)"/>
+
+</svg>

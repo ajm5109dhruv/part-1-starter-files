@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Portfolio Website</title>
+  <link rel="stylesheet" href="/assets/font.css">
+  <link href="./output.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    /* Layering fix: canvas sits behind, all hero content sits above it */
+    .hero { position: relative; overflow: hidden; }
+    #wrapper-canvas { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+    #wrapper-canvas canvas { display: block; }
+    .hero > *:not(#wrapper-canvas) { position: relative; z-index: 1; }
+    .d-logo { width: 790px; height: auto; pointer-events: none; }
+    @media (max-width: 920px) { .d-logo { width: 350px; } }
+  </style>
+
+  <!-- ===== ABOUT ME POPUP CSS (added) ===== -->
+  <style>
+    #aboutOverlay {
+      --bg: #111; --card: #1a1d24; --text: #fff;
+      --muted: #aab3c5; --line: #2b3140; --accent: #38bdf8;
+      position: fixed; inset: 0; z-index: 9999; overflow-y: auto;
+      background: var(--bg); color: var(--text);
+      font-family: system-ui, "Segoe UI", Arial, sans-serif; line-height: 1.7;
+      display: none;
+    }
+    #aboutOverlay.open { display: block; }
+    #aboutOverlay *, #aboutOverlay *::before, #aboutOverlay *::after { box-sizing: border-box; margin: 0; }
+    #aboutOverlay h1, #aboutOverlay h2 { font-family: 'spartan', system-ui, sans-serif; line-height: 1.1; }
+
+    #aboutOverlay .about { max-width: 1040px; margin: 0 auto; padding: 56px 24px 96px; }
+    #aboutOverlay .about-close {
+      position: fixed; top: 20px; right: 24px; width: 46px; height: 46px;
+      border-radius: 50%; border: 0; cursor: pointer;
+      background: var(--card); color: var(--text); font-size: 20px;
+    }
+    #aboutOverlay .about-close:hover { background: var(--accent); color: #111; }
+    #aboutOverlay .about-close:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    #aboutOverlay .hero-a { display: grid; grid-template-columns: 1.2fr 1fr; gap: 64px; align-items: center; margin-top: 24px; }
+    #aboutOverlay .hero-a h1 { font-size: clamp(2.6rem, 7vw, 4.6rem); font-weight: 700; letter-spacing: -.02em; }
+    #aboutOverlay .role { margin-top: 14px; color: var(--accent); font-size: 1.25rem; font-style: italic; font-family: 'Merriweather', Georgia, serif; }
+    #aboutOverlay .bio { margin-top: 24px; max-width: 52ch; color: var(--muted); font-size: 1.1rem; }
+    #aboutOverlay .bio + .bio { margin-top: 14px; }
+
+    #aboutOverlay .photo { position: relative; justify-self: center; width: min(100%, 380px); }
+    #aboutOverlay .photo::before {
+      content: ""; position: absolute; inset: 18px -18px -18px 18px;
+      border-radius: 28px; background: linear-gradient(to left, #1595b6, #1f2667); 
+    }
+    #aboutOverlay .photo img {
+      position: relative; display: block; width: 100%; aspect-ratio: 4 / 5;
+      object-fit: cover; object-position: 38% center; border-radius: 28px;
+    }
+
+    #aboutOverlay section { margin-top: 80px; }
+    #aboutOverlay h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 28px; }
+    #aboutOverlay .skills { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    #aboutOverlay .skill {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 20px 22px; font-weight: 600; font-size: 1.1rem;
+    }
+    #aboutOverlay .skill small { display: block; font-weight: 400; font-size: .9rem; color: var(--muted); }
+    #aboutOverlay .skill.learning { border-style: dashed; }
+
+    #aboutOverlay .edu { display: grid; gap: 14px; }
+    #aboutOverlay .edu-item {
+      background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    }
+    #aboutOverlay .edu-item strong { display: block; font-size: 1.1rem; }
+    #aboutOverlay .edu-item span { color: var(--muted); font-size: .95rem; }
+    #aboutOverlay .edu-item em { font: 700 1.9rem 'spartan', system-ui, sans-serif; color: var(--accent); }
+
+    @media (max-width: 780px) {
+      #aboutOverlay .hero-a { grid-template-columns: 1fr; gap: 48px; margin-top: 56px; }
+      #aboutOverlay .photo { order: -1; width: min(78%, 300px); margin-right: 18px; }
+      #aboutOverlay .skills { grid-template-columns: 1fr 1fr; }
+      #aboutOverlay section { margin-top: 64px; }
+    }
+  </style>
+</head>
+<body class="bg-[#111] text-white flex flex-col">
+  <section class="hero flex flex-col justify-between h-screen">
+    <header class="flex items-center justify-between w-full px-4 mt-4 max-w-screen-2xl mx-auto">
+      <!-- <img src="/assets/images/D-logo.svg" alt="Logo"> -->
+       <img src="/assets/images/D-logo.svg" alt="">
+
+      <div class="flex gap-6 items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        <svg class="hidden" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        
+        <a target="_blank" href="tel:7457840458"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg></a>
+        <a target="_blank" href="https://wa.me/7457840458?text=Hi, How are you?" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp text-2xl"></i></a>
+      </div>
+    </header>
+
+    <!-- Animation canvas is created here by matter.js -->
+    <div class="hidden md:block" id="wrapper-canvas"></div>
+
+    <div class="flex -mt-10 ">
+      <div class="max-w-screen-xl px-4 mx-auto w-full relative">
+        <svg class="d-logo absolute top-0 -translate-y-1/3 left-[30%]" viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg"
+          style="--primary-color:#00F0FF;--secondary-color:#7A00FF;--accent-color:#D900C7;--spine-dark:#0033C8;--shadow-color:#002288;">
+          <defs>
+            <linearGradient id="fluid_spine_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--primary-color)" />
+              <stop offset="100%" stop-color="var(--spine-dark)" />
+            </linearGradient>
+            <linearGradient id="fluid_loop_grad" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#0072FF" />
+              <stop offset="50%" stop-color="var(--primary-color)" />
+              <stop offset="100%" stop-color="var(--secondary-color)" />
+            </linearGradient>
+            <linearGradient id="fluid_wave_grad" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="var(--primary-color)" />
+              <stop offset="50%" stop-color="var(--secondary-color)" />
+              <stop offset="100%" stop-color="var(--accent-color)" />
+            </linearGradient>
+          </defs>
+          <g transform="translate(180, 150)">
+            <path d="M 0,0 L 100,0 C 100,0 80,180 80,260 L 80,500 L 0,500 Z" fill="url(#fluid_spine_grad)" />
+            <path d="M 0,500 L 80,500 C 160,500 280,480 320,400 C 270,440 150,440 0,380 Z" fill="var(--shadow-color)" opacity="0.4" />
+            <path d="M 100,0 C 250,0 450,80 450,250 C 450,400 320,500 80,500 C 180,500 370,450 370,250 C 370,120 220,60 100,60 Z" fill="url(#fluid_loop_grad)" />
+            <path d="M -30,300 C 30,220 120,200 200,240 C 300,290 380,230 430,120 C 410,210 320,380 200,310 C 110,260 20,280 -60,400 C -60,400 -50,330 -30,300 Z" fill="url(#fluid_wave_grad)" />
+          </g>
+        </svg>
+
+        <h1 class="text-[64px] font-['spartan'] relative pointer-events-none">Dhruv Ajmera</h1>
+        <p class="text-[24px] font-['Merriweather'] italic relative pointer-events-none">Aspiring SoftWare Developer</p>
+        <!-- CHANGED: added id + data-open-about so this button opens the About Me popup -->
+        <button id="aboutBtn" data-open-about class="bg-[#4595eb] py-2 px-5 rounded mt-7 text-[16px] font-extrabold bg-gradient-to-l from-[#1595b6] to-[#1f2667e6] relative hover:scale-110 transition-transform duration-300 ease-in-out">About Me</button>
+      </div>
+
+      <ul class="text-[#4ecaf7ce] ml-auto space-y-6 absolute right-8 text-[28px]">
+        <li class="hover:text-white"><a target="_blank" rel="noopener" href="https://www.linkedin.com/in/dhruv-ajmera-38b1b3418/" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a></li>
+        <li class="hover:text-white"><a target="_blank" rel="noopener" href="https://x.com/DhruvAjmera5109" aria-label="X"><i class="fa-brands fa-x-twitter"></i></a></li>
+        <li class="hover:text-white"><a target="_blank" rel="noopener" href="https://www.instagram.com/dhruv_ajmera.5109/?hl=en" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a></li>
+        <li class="hover:text-white"><a target="_blank" rel="noopener" href="mailto:ajmdhruv5109@gmail.com" aria-label="Email"><i class="fa-regular fa-envelope"></i></a></li>
+        <li class="hover:text-white"><a target="_blank" rel="noopener" href="https://github.com/ajm5109dhruv" aria-label="GitHub"><i class="fa-brands fa-github"></i></a></li>
+      </ul>
+    </div>
+    
+
+    <a href="#latest-work" class="text-center">
+      <button class="bg-[#4595eb] py-2 px-5 rounded mt-7 text-[16px] font-extrabold bg-gradient-to-l from-[#1595b6] to-[#1f2667e6] relative hover:scale-110 transition-transform duration-300 ease-in-out self-center mb-5">Latest Works</button>
+    </a>
+  </section>
+  <section id="latest-work" class="min-h-screen px-4 py-10 scroll-mt-4 relative">
+    <h1 class="text-5xl text-center underline text-sky-400 decoration-sky-400 underline-offset-4 mt-4">
+      Latest Works
+    </h1>
+    <div class="absolute top-20 bottom-0 left-1/2 w-[3px] bg-sky-300 -translate-x-1/2 mt-6"></div>
+  </section>
+
+  <!-- ===== ABOUT ME POPUP HTML (added) ===== -->
+  <div id="aboutOverlay" role="dialog" aria-modal="true" aria-labelledby="aboutTitle">
+    <button class="about-close" id="aboutClose" aria-label="Close About Me">&#10005;</button>
+    <main class="about">
+      <header class="hero-a">
+        <div>
+          <h1 id="aboutTitle">Dhruv Ajmera</h1>
+          <p class="role">Aspiring SoftWare Developer</p>
+          <p class="bio">
+            I’m a student at GLA University, Mathura, working towards a career in
+            software engineering. I enjoy turning ideas into clean, responsive web
+            pages, and I care about getting the small details right.
+          </p>
+          <p class="bio">
+            Right now I’m strengthening my front-end skills while learning JavaScript,
+            Java and Python, so I can build complete applications, not just pages.
+          </p>
+        </div>
+        <div class="photo"><img src="/assets/profile.jpg" alt="Portrait of Dhruv Ajmera"></div>
+      </header>
+
+      <section aria-labelledby="skills-h">
+        <h2 id="skills-h">Skills</h2>
+        <div class="skills">
+          <div class="skill">HTML</div>
+          <div class="skill">CSS</div>
+          <div class="skill">Tailwind CSS</div>
+          <div class="skill learning">JavaScript<small>Learning</small></div>
+          <div class="skill learning">Java<small>Learning</small></div>
+          <div class="skill learning">Python<small>Learning</small></div>
+        </div>
+      </section>
+
+      <section aria-labelledby="edu-h">
+        <h2 id="edu-h">Education</h2>
+        <div class="edu">
+          <div class="edu-item"><div><strong>GLA University, Mathura</strong><span>Currently studying</span></div></div>
+          <div class="edu-item"><div><strong>Class 12</strong><span>Senior Secondary</span></div><em>89.2%</em></div>
+          <div class="edu-item"><div><strong>Class 10</strong><span>Secondary</span></div><em>97.2%</em></div>
+        </div>
+      </section>
+    </main>
+  </div>
+  
+  <!-- Order matters: libraries first, then your matter.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.12.0/matter.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/matter-wrap@0.2.0/build/matter-wrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/matter-attractors@0.1.6/build/matter-attractors.min.js"></script>
+  <script src="./matter.js"></script>
+
+  <!-- ===== ABOUT ME POPUP JS (added) ===== -->
+  <script>
+    (function () {
+      var overlay = document.getElementById('aboutOverlay');
+      var closeBtn = document.getElementById('aboutClose');
+      function openAbout()  { overlay.classList.add('open'); document.body.style.overflow = 'hidden'; overlay.scrollTop = 0; closeBtn.focus(); }
+      function closeAbout() { overlay.classList.remove('open'); document.body.style.overflow = ''; }
+
+      document.querySelectorAll('[data-open-about]').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); openAbout(); });
+      });
+      closeBtn.addEventListener('click', closeAbout);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeAbout(); });
+    })();
+  </script>
+</body>
+</html>
